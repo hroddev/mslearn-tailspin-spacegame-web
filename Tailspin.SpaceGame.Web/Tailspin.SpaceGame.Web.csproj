@@ -11,5 +11,6 @@
 
   <ItemGroup>
   <PackageReference Include="Tailspin.SpaceGame.Web.Models" Version="1.0.0-CI-20240301-213930" />
-</ItemGroup>
+  </ItemGroup>
+
 </Project>
