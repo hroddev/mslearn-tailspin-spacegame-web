@@ -2,9 +2,10 @@ trigger:
 - '*'
 
 pool:
-  vmImage: 'ubuntu-20.04'
+  name: az400m03l03a-pool
   demands:
-  - npm
+   - agent.name -equals az400m03-vm1
+   - npm
 
 variables:
   buildConfiguration: 'Release'
@@ -35,6 +36,14 @@ steps:
 - script: 'echo "$(Build.DefinitionName), $(Build.BuildId), $(Build.BuildNumber)" > buildinfo.txt'
   displayName: 'Write build info'
   workingDirectory: $(wwwrootDir)
+
+- task: NuGetCommand@2
+  displayName: 'Restore project dependencies'
+  inputs:
+    command: 'restore'
+    restoreSolution: '**/*.sln'
+    feedsToUse: 'select'
+    vstsFeed: '$(System.TeamProject)/Tailspin.SpaceGame.Web.Models'  
 
 - task: DotNetCoreCLI@2
   displayName: 'Build the project - $(buildConfiguration)'
